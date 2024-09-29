@@ -4,7 +4,12 @@ import {
   useUser as useSupabaseUser,
 } from "@supabase/auth-helpers-react";
 
-// comment: 추후 개선 예정.
+interface UserDetailsType {
+  id: string;
+  email: string;
+  username: string;
+  created_at: string;
+}
 
 export const UserContext = createContext<any>(undefined);
 
@@ -13,18 +18,26 @@ export interface Props {
 }
 
 export const UserContextProvider = (props: Props) => {
-  const { session, isLoading: isLoadingUser } = useSessionContext();
+  const {
+    session,
+    isLoading: isLoadingUser,
+    supabaseClient: supabaseClient,
+  } = useSessionContext();
   const user = useSupabaseUser();
   const accessToken = session?.access_token ?? null;
 
-  const [userDetails, setUserDetails] = useState<any>(null);
+  const [userDetails, setUserDetails] = useState<UserDetailsType | null>(null);
+
+  const GetUser = () => supabaseClient.from("users").select("*").single();
 
   useEffect(() => {
-    setUserDetails({
-      id: session?.user.id,
-      email: session?.user.email,
+    Promise.allSettled([GetUser()]).then((r) => {
+      const userDetailsPromise = r[0];
+      if (userDetailsPromise.status === "fulfilled") {
+        setUserDetails(userDetailsPromise.value.data);
+      }
     });
-  }, [session]);
+  }, [user, isLoadingUser]);
 
   const value = {
     accessToken,

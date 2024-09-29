@@ -3,13 +3,13 @@
 import { useUser } from "@/hooks/useUser";
 import Link from "next/link";
 import Button from "./Button";
-import useAuthModal from "@/hooks/useAuthModal";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import toast from "react-hot-toast";
+import useLoginModal from "@/hooks/useLoginModal";
 
 const Header = () => {
   const { user } = useUser();
-  const { onOpen } = useAuthModal();
+  const { onOpen } = useLoginModal();
   const supabaseClient = useSupabaseClient();
   const onLogout = async () => {
     const { error } = await supabaseClient.auth.signOut();
