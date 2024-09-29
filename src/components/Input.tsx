@@ -1,0 +1,26 @@
+import { forwardRef, InputHTMLAttributes } from "react";
+import { twMerge } from "tailwind-merge";
+
+// comment: primary 색깔을 globals.css 에서 임의로 설정하세요.
+
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
+  className?: string;
+}
+
+const Input = forwardRef<HTMLInputElement, Props>(
+  ({ className, type = "text", ...props }, ref) => (
+    <input
+      type={type}
+      className={twMerge(
+        `w-full p-3 rounded-lg bg-[--primary] text-white font-bold border border-white focus:outline-none`,
+        className
+      )}
+      ref={ref}
+      {...props}
+    />
+  )
+);
+
+Input.displayName = "Input";
+
+export default Input;
