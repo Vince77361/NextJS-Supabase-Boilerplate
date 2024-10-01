@@ -7,15 +7,15 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Input from "../Input";
-import useRegisterModal from "@/hooks/useRegisterModal";
 import Button from "../Button";
-import useLoginModal from "@/hooks/useLoginModal";
+import RegisterModalStore from "@/lib/store/useRegisterModal";
+import LoginModalStore from "@/lib/store/useLoginModal";
 
 const RegisterModal = () => {
   const supabaseClient = useSupabaseClient();
   const { isOpen: isRegisterModalOpen, onClose: onRegisterModalClose } =
-    useRegisterModal();
-  const { onOpen: onLoginModalOpen } = useLoginModal();
+    RegisterModalStore();
+  const { onOpen: onLoginModalOpen } = LoginModalStore();
   const { user } = useUser();
   const { register, handleSubmit, reset } = useForm<FieldValues>({
     defaultValues: {

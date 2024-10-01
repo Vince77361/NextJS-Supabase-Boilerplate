@@ -7,6 +7,9 @@ export default async function Home() {
       <Link href="/profile" className="text-white">
         내 정보 확인하기
       </Link>
+      <Link href="/board" className="text-white">
+        board로 이동하기
+      </Link>
     </>
   );
 }

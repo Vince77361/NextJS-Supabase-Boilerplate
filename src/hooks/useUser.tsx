@@ -35,13 +35,14 @@ export const UserContextProvider = (props: Props) => {
       .single();
     if (error) {
       console.error("Failed to get Profile: ", error);
+      return null;
     }
     return { data };
   };
   const fetchUserDetails = async () => {
     try {
       const userDetailsResult = await GetUser();
-      if (userDetailsResult.data) {
+      if (userDetailsResult?.data) {
         setUserDetails(userDetailsResult.data);
       }
     } catch (error) {

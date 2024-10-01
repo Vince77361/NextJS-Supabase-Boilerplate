@@ -10,7 +10,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useEffect } from "react";
 
 const Profile = () => {
-  const { userDetails, fetchUserDetails } = useUser();
+  const { user, userDetails, fetchUserDetails, isLoading } = useUser();
   const router = useRouter();
   const supabaseClient = useSupabaseClient();
   const { register, handleSubmit, reset } = useForm<FieldValues>({
@@ -19,12 +19,6 @@ const Profile = () => {
       bio: userDetails?.bio,
     },
   });
-
-  if (!userDetails) {
-    toast.error("Please Log in");
-    router.push("/");
-    return;
-  }
 
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
     const { data: AllUsers, error: allUserError } = await supabaseClient
@@ -72,7 +66,14 @@ const Profile = () => {
         bio: userDetails?.bio,
       });
     }
-  }, [userDetails, reset]);
+
+    if (!user && !isLoading) {
+      console.log(user);
+      toast.error("Please Log in");
+      router.push("/");
+      return;
+    }
+  }, [user, userDetails, reset, isLoading, router]);
 
   return (
     <div className="w-1/2 h-fit bg-neutral-800 p-10 rounded-2xl grid grid-cols-2 grid-rows-1">

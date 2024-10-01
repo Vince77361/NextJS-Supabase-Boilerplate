@@ -5,12 +5,12 @@ import Link from "next/link";
 import Button from "./Button";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import toast from "react-hot-toast";
-import useLoginModal from "@/hooks/useLoginModal";
 import { useRouter } from "next/navigation";
+import LoginModalStore from "@/lib/store/useLoginModal";
 
 const Header = () => {
   const { user } = useUser();
-  const { onOpen } = useLoginModal();
+  const { onOpen } = LoginModalStore();
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
 
