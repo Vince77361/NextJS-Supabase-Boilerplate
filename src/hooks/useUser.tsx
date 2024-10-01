@@ -25,18 +25,33 @@ export const UserContextProvider = (props: Props) => {
   } = useSessionContext();
   const user = useSupabaseUser();
   const accessToken = session?.access_token ?? null;
-
   const [userDetails, setUserDetails] = useState<UserDetailsType | null>(null);
 
-  const GetUser = () => supabaseClient.from("users").select("*").single();
+  const GetUser = async () => {
+    const { data, error } = await supabaseClient
+      .from("users")
+      .select("*")
+      .single();
+    return { data, error };
+  };
 
   useEffect(() => {
-    Promise.allSettled([GetUser()]).then((r) => {
-      const userDetailsPromise = r[0];
-      if (userDetailsPromise.status === "fulfilled") {
-        setUserDetails(userDetailsPromise.value.data);
+    const fetchUserDetails = async () => {
+      try {
+        const userDetailsResult = await GetUser();
+        if (!userDetailsResult.error) {
+          setUserDetails(userDetailsResult.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user details:", error);
       }
-    });
+    };
+
+    if (!user) {
+      setUserDetails(null);
+    } else {
+      fetchUserDetails();
+    }
   }, [user, isLoadingUser]);
 
   const value = {
