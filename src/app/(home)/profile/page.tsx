@@ -1,9 +1,8 @@
-import Profile from "@/components/Profile/View";
+import Profile from "@/components/Profile";
 
 export default function Page() {
   return (
-    <div className="p-10">
-      <h1>Profile</h1>
+    <div className="flex flex-col items-center pt-16">
       <Profile />
     </div>
   );

@@ -32,21 +32,23 @@ export const UserContextProvider = (props: Props) => {
       .from("users")
       .select("*")
       .single();
-    return { data, error };
+    if (error) {
+      console.error("Failed to get Profile: ", error);
+    }
+    return { data };
+  };
+  const fetchUserDetails = async () => {
+    try {
+      const userDetailsResult = await GetUser();
+      if (userDetailsResult.data) {
+        setUserDetails(userDetailsResult.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch user details:", error);
+    }
   };
 
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const userDetailsResult = await GetUser();
-        if (!userDetailsResult.error) {
-          setUserDetails(userDetailsResult.data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch user details:", error);
-      }
-    };
-
     if (!user) {
       setUserDetails(null);
     } else {
@@ -59,6 +61,7 @@ export const UserContextProvider = (props: Props) => {
     user,
     userDetails,
     isLoading: isLoadingUser,
+    fetchUserDetails,
   };
   console.log(value);
 
