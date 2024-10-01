@@ -31,6 +31,7 @@ export const UserContextProvider = (props: Props) => {
     const { data, error } = await supabaseClient
       .from("users")
       .select("*")
+      .eq("id", user?.id)
       .single();
     if (error) {
       console.error("Failed to get Profile: ", error);
