@@ -43,22 +43,25 @@ const RegisterModal = () => {
       return;
     }
 
-    const { data: usernameExists } = await supabaseClient
+    if (
+      !values.username ||
+      !values.email ||
+      !values.password ||
+      !values.confirm
+    ) {
+      toast.error("Missing Fields");
+    }
+
+    const { data: AllUsers } = await supabaseClient // 동일한 유저네임이 이미 존재하는지 확인
       .from("users")
-      .select("*")
-      .eq("username", values.username)
-      .single();
-    if (usernameExists) {
+      .select("*");
+
+    if (AllUsers?.some((user) => user.username === values.username)) {
       toast.error("Username already exists.");
       return;
     }
 
-    const { data: emailExists } = await supabaseClient
-      .from("users")
-      .select("*")
-      .eq("email", values.email)
-      .single();
-    if (emailExists) {
+    if (AllUsers?.some((user) => user.email === values.email)) {
       toast.error("Email already exists.");
       return;
     }
@@ -72,7 +75,7 @@ const RegisterModal = () => {
       return;
     }
 
-    const { data: userData, error: InsertError } = await supabaseClient
+    const { data: userData, error: InsertError } = await supabaseClient // 유저 정보를 db에 저장
       .from("users")
       .insert({
         email: values.email,
@@ -90,7 +93,6 @@ const RegisterModal = () => {
   useEffect(() => {
     console.log(user);
     if (user) {
-      toast(`Welcome, ${user.email}!`);
       onRegisterModalClose();
     }
   }, [user, onRegisterModalClose]);
@@ -103,22 +105,16 @@ const RegisterModal = () => {
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-y-2">
-            <Input
-              {...register("username", { required: true })}
-              placeholder="username"
-            />
-            <Input
-              {...register("email", { required: true })}
-              placeholder="email"
-            />
+            <Input {...register("username")} placeholder="username" />
+            <Input {...register("email")} placeholder="email" />
             <Input
               type="password"
-              {...register("password", { required: true })}
+              {...register("password")}
               placeholder="password"
             />
             <Input
               type="password"
-              {...register("confirm", { required: true })}
+              {...register("confirm")}
               placeholder="password confirm"
             />
             <Button type="submit">Register</Button>

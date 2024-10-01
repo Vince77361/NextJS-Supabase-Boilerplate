@@ -31,6 +31,11 @@ const LoginModal = () => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
+    if (!values.email || !values.password) {
+      toast.error("Missing Fields");
+      return;
+    }
+
     const { error: signUpError } = await supabaseClient.auth.signInWithPassword(
       {
         email: values.email,
@@ -63,13 +68,10 @@ const LoginModal = () => {
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-y-2">
-            <Input
-              {...register("email", { required: true })}
-              placeholder="email"
-            />
+            <Input {...register("email")} placeholder="email" />
             <Input
               type="password"
-              {...register("password", { required: true })}
+              {...register("password")}
               placeholder="password"
             />
             <Button type="submit">Log In</Button>

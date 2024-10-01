@@ -9,6 +9,7 @@ interface Props {
 }
 
 const Modal: FC<Props> = ({ title, isOpen, onChange, children }) => {
+  // 로그인, 회원가입 모달 및 다른 모달 템플릿
   return (
     <Dialog.Root open={isOpen} defaultOpen={isOpen} onOpenChange={onChange}>
       <Dialog.Portal>
