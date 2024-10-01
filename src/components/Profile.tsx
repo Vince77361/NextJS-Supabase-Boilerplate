@@ -39,8 +39,12 @@ const Profile = () => {
     }
     if (values.username === "") {
       toast.error("Make sure your name not blank");
-    } else if (AllUsers.some((user) => user.username === values.username)) {
+    } else if (
+      AllUsers.some((user) => user.username === values.username) &&
+      values.username !== userDetails?.username
+    ) {
       // 이미 동일한 유저네임이 존재하는지 확인
+
       toast.error("Username is already in use.");
     }
 
