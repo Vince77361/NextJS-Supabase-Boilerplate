@@ -1,3 +1,3 @@
-npm i @supabase/auth-helpers-react @supabase/auth-helpers-nextjs @supabase/auth-ui-react @supabase/auth-ui-shared react-hot-toast zustand tailwind-merge @radix-ui/react-dialog
+npm i @supabase/auth-helpers-react @supabase/auth-helpers-nextjs @supabase/auth-ui-react @supabase/auth-ui-shared react-hot-toast zustand tailwind-merge @radix-ui/react-dialog axios
 
 이 명령어를 복붙하세요.
