@@ -67,7 +67,7 @@ const Profile = () => {
       });
     }
 
-    if (!user && !isLoading) {
+    if (!userDetails && isLoading) {
       console.log(user);
       toast.error("Please Log in");
       router.push("/");

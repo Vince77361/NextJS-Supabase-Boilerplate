@@ -26,6 +26,7 @@ export const UserContextProvider = (props: Props) => {
   const user = useSupabaseUser();
   const accessToken = session?.access_token ?? null;
   const [userDetails, setUserDetails] = useState<UserDetailsType | null>(null);
+  const [isLoadingData, setIsLoadingData] = useState(false);
 
   const GetUser = async () => {
     const { data, error } = await supabaseClient
@@ -51,18 +52,21 @@ export const UserContextProvider = (props: Props) => {
   };
 
   useEffect(() => {
+    setIsLoadingData(true);
     if (!user) {
       setUserDetails(null);
+      setIsLoadingData(false);
     } else {
       fetchUserDetails();
+      setIsLoadingData(false);
     }
-  }, [user, isLoadingUser]);
+  }, [user, isLoadingUser, isLoadingData]);
 
   const value = {
     accessToken,
     user,
     userDetails,
-    isLoading: isLoadingUser,
+    isLoading: isLoadingData,
     fetchUserDetails,
   };
   console.log(value);
