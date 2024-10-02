@@ -6,7 +6,7 @@ import Button from "./Button";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import LoginModalStore from "@/lib/store/useLoginModal";
+import LoginModalStore from "@/lib/store/LoginModalStore";
 
 const Header = () => {
   const { user } = useUser();

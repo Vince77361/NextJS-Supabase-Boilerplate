@@ -8,8 +8,8 @@ import toast from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Input from "../Input";
 import Button from "../Button";
-import LoginModalStore from "@/lib/store/useLoginModal";
-import RegisterModalStore from "@/lib/store/useRegisterModal";
+import LoginModalStore from "@/lib/store/LoginModalStore";
+import RegisterModalStore from "@/lib/store/RegisterModalStore";
 
 const LoginModal = () => {
   const supabaseClient = useSupabaseClient();

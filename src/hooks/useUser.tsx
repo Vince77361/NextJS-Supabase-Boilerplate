@@ -55,11 +55,10 @@ export const UserContextProvider = (props: Props) => {
     setIsLoadingData(true);
     if (!user) {
       setUserDetails(null);
-      setIsLoadingData(false);
     } else {
       fetchUserDetails();
-      setIsLoadingData(false);
     }
+    setIsLoadingData(false);
   }, [user, isLoadingUser, isLoadingData]);
 
   const value = {
